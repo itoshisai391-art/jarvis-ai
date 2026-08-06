@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
+ض    steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
@@ -48,7 +48,7 @@ jobs:
             sed -i 's/# package.name = myapp/package.name = jarvisai/' buildozer.spec
             sed -i 's/# package.domain = org.test/package.domain = com.jarvis/' buildozer.spec
             sed -i 's/# source.include_exts = py,png,jpg,kv,atlas/source.include_exts = py/' buildozer.spec
-            sed -i 's/# requirements = python3,kivy/requirements = python3,google-generativeai/' buildozer.spec
+            sed -i 's/# requirements = python3,kivy/requirements = python3/' buildozer.spec
             sed -i 's/# orientation = portrait/orientation = portrait/' buildozer.spec
         fi
         
