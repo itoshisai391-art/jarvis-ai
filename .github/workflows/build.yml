@@ -54,14 +54,17 @@ jobs:
         sed -i 's/^#requirements/requirements/' buildozer.spec
         sed -i 's/^#android.api/android.api/' buildozer.spec
         sed -i 's/^#android.ndk /android.ndk /' buildozer.spec
+        sed -i 's/^#android.ndk_api/android.ndk_api/' buildozer.spec
         
-        # Configure correct stable values to prevent crashes
+        # Apply stable configuration values to prevent toolchain crashes
         sed -i 's/title = My Application/title = Jarvis AI/' buildozer.spec
         sed -i 's/package.name = myapp/package.name = jarvisai/' buildozer.spec
         sed -i 's/package.domain = org.test/package.domain = com.jarvis/' buildozer.spec
         sed -i 's/requirements = python3,kivy/requirements = python3/' buildozer.spec
         sed -i 's/android.api = 33/android.api = 31/' buildozer.spec
         sed -i 's/android.ndk = 25b/android.ndk = 23b/' buildozer.spec
+        sed -i 's/android.ndk_api = 21/android.ndk_api = 31/' buildozer.spec
+        sed -i 's/android.ndk_api = 24/android.ndk_api = 31/' buildozer.spec
 
         yes | buildozer -v android debug
 
