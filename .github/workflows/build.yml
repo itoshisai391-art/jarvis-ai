@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout Code
@@ -40,33 +40,26 @@ jobs:
         pip install cython==0.29.36
         pip install --upgrade buildozer
 
-    - name: Build with Buildozer
+    - name: Generate and Configure buildozer.spec
       run: |
         if [ ! -f buildozer.spec ]; then
             buildozer init
         fi
         
-        # Un-comment necessary lines in buildozer.spec
-        sed -i 's/^#title/title/' buildozer.spec
-        sed -i 's/^#package.name/package.name/' buildozer.spec
-        sed -i 's/^#package.domain/package.domain/' buildozer.spec
-        sed -i 's/^#source.include_exts/source.include_exts/' buildozer.spec
-        sed -i 's/^#requirements/requirements/' buildozer.spec
-        sed -i 's/^#android.api/android.api/' buildozer.spec
-        sed -i 's/^#android.ndk /android.ndk /' buildozer.spec
-        sed -i 's/^#android.ndk_api/android.ndk_api/' buildozer.spec
-        
-        # Apply stable configuration values to prevent toolchain crashes
-        sed -i 's/title = My Application/title = Jarvis AI/' buildozer.spec
-        sed -i 's/package.name = myapp/package.name = jarvisai/' buildozer.spec
-        sed -i 's/package.domain = org.test/package.domain = com.jarvis/' buildozer.spec
-        sed -i 's/requirements = python3,kivy/requirements = python3/' buildozer.spec
-        sed -i 's/android.api = 33/android.api = 31/' buildozer.spec
-        sed -i 's/android.ndk = 25b/android.ndk = 23b/' buildozer.spec
-        sed -i 's/android.ndk_api = 21/android.ndk_api = 31/' buildozer.spec
-        sed -i 's/android.ndk_api = 24/android.ndk_api = 31/' buildozer.spec
+        # Configure buildozer.spec directly
+        sed -i 's/^#*title = .*/title = Jarvis AI/' buildozer.spec
+        sed -i 's/^#*package.name = .*/package.name = jarvisai/' buildozer.spec
+        sed -i 's/^#*package.domain = .*/package.domain = com.jarvis/' buildozer.spec
+        sed -i 's/^#*source.include_exts = .*/source.include_exts = py/' buildozer.spec
+        sed -i 's/^#*requirements = .*/requirements = python3/' buildozer.spec
+        sed -i 's/^#*android.api = .*/android.api = 31/' buildozer.spec
+        sed -i 's/^#*android.minapi = .*/android.minapi = 21/' buildozer.spec
+        sed -i 's/^#*android.ndk = .*/android.ndk = 23b/' buildozer.spec
+        sed -i 's/^#*android.ndk_api = .*/android.ndk_api = 21/' buildozer.spec
+        sed -i 's/^#*p4a.branch = .*/p4a.branch = master/' buildozer.spec
 
-        yes | buildozer -v android debug
+    - name: Build with Buildozer
+      run: yes | buildozer -v android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
